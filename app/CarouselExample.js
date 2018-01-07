@@ -1,0 +1,67 @@
+// CarouselExample.js
+
+'use strict';
+
+import React, {Component} from 'react';
+import { View, Text, Image, ScrollView, Dimensions} from 'react-native';
+import ListRow from '../components/ListRow';
+import Carousel from '../components/Carousel/index';
+import PullPicker from '../components/PullPicker/PullPicker';
+
+
+export default class CarouselDemo extends Component {
+
+
+  constructor(props) {
+    super(props);
+    this.items = ['none', 'default', 'custom'];
+    this.state = {
+        width: Dimensions.get('window').width,
+        control: 'none',
+    }
+  }
+
+  selectControl() {
+    PullPicker.show(
+      'Control',
+      this.items,
+      this.items.indexOf(this.state.control),
+      (item, index) => this.setState({control: item})
+    );
+  }
+
+  renderControl() {
+    let {control} = this.state;
+    if (control === 'default') {
+      return <Carousel.Control />;
+    } else if (control === 'custom') {
+      return (
+        <Carousel.Control
+          style={{alignItems: 'flex-end'}}
+          dot={<Text style={{backgroundColor: 'rgba(0, 0, 0, 0)', color: '#5bc0de', padding: 4}}>□</Text>}
+          activeDot={<Text style={{backgroundColor: 'rgba(0, 0, 0, 0)', color: '#5bc0de', padding: 4}}>■</Text>}
+          />
+      );
+    }
+  }
+
+  render() {
+    let {width} = this.state;
+    return (
+      <ScrollView style={{flex: 1}}>
+        <Carousel
+          style={{height: 238}}
+          control={this.renderControl()}
+          onLayout={e => this.setState({width: e.nativeEvent.layout.width})}
+        >
+          <Image style={{width, height: 238}} resizeMode='cover' source={require('./images/teaset1.jpg')} />
+          <Image style={{width, height: 238}} resizeMode='cover' source={require('./images/teaset2.jpg')} />
+          <Image style={{width, height: 238}} resizeMode='cover' source={require('./images/teaset3.jpg')} />
+        </Carousel>
+        <View style={{height: 20}} />
+        <ListRow title='Control' detail={this.state.control} onPress={() => this.selectControl()} topSeparator='full' bottomSeparator='full' />
+      </ScrollView>
+    );
+  }
+
+}

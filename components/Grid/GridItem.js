@@ -5,73 +5,66 @@ import PropTypes from 'prop-types';
 import {
     Text,
     View,
+    Image,
     StyleSheet,
     Dimensions
 } from 'react-native';
+
+import { vw, computedSpace } from '../../style/basic';
 
 
 class GridItem extends Component {
     static propTypes = {
         value: PropTypes.string,
         title: PropTypes.string,
-        col: PropTypes.number,
+        onPress: PropTypes.func
     }
 
     static defaultProps = {
         value: '',
         title: '',
-        col: 1,
-
+        style: {},
+        onPress: () => {}
     }
     render = () => {
-        const { value, title, col, style } = this.props;
+        const { image, title, style, children, onPress } = this.props;
 
-        let colStyle = {
-            borderRadius: 10,
-            backgroundColor: 'white',
-            width: vw(100) / col,
-            ...style
-        }
+        console.log(title);
 
         return (
-            <View style={[colStyle, styles.shadow]}>
-                <Text style={styles.profileValues}> {value} </Text>
-                <Text style={[styles.label, styles.smallText]}>
-                    {title}
-                </Text>
+            <View style={[styles.item, style]} onPress={onPress}>
+                {
+                    children ? children : (
+                        <View>
+                            <Image style={styles.img} source={image} />
+                            <Text style={styles.title}>
+                                { title }
+                            </Text>
+                        </View>
+                    )
+                }
             </View>
         );
     }
 }
 
-function vw(percentageWidth) {
-    return Dimensions.get('window').width * (percentageWidth / 100);
-}
-
-const COLUMNS = 4;
-const MARGIN = vw(1);
-const SPACING = ((COLUMNS + 1) / COLUMNS) * MARGIN;
-
 const styles = StyleSheet.create({
-    profileValues: {
-        fontSize: 32,
-        textAlign: 'center',
+    item: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 80
+    },
+    title: {
         marginTop: 10,
-        color: '#4990E2',
+        textAlign: 'center',
+        color: '#424242',
+        fontSize: 14
     },
-    smallText: {
-        color: '#4990E2',
-        fontSize: 12,
-        alignSelf: 'center',
-        marginTop: 5,
-    },
-    shadow: {
-        shadowColor: '#444',
-        shadowOffset: { width: 5, height: 5 },
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-        elevation: 1,
-    },
+    img: {
+        width: 40,
+        height: 40
+
+    }
 })
 
 export default GridItem;

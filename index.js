@@ -2,9 +2,28 @@ import { AppRegistry, Image, Button, StyleSheet } from 'react-native';
 import App from './app/App';
 import Menu from './app/Menu';
 import React from 'react';
-import ToastDemo from './app/ToastDemo';
+//import ToastDemo from './app/ToastDemo';
 import { TabNavigator } from 'react-navigation';
-import bottomNav from './app/components/Navbar/BottomNav';
+import bottomNav from './components/Navbar/BottomNav';
+import ButtonDemo from './app/ButtonDemo';
+import CheckboxDemo from './app/CheckboxDemo';
+import InputDemo from './app/InputDemo';
+import ActionSheetDemo from './app/ActionSheetDemo';
+import ListRowDemo from './app/ListRowDemo';
+import SelectDemo from './app/SelectDemo';
+import ProjectorDemo from './app/ProjectorDemo';
+import BadgeDemo from './app/BadgeDemo';
+import MenusDemo from './app/MenuDemo';
+import CarouselDemo from './app/CarouselExample';
+import SegmentedBarDemo from './app/SegmentedBarExample';
+import SegmentedViewDemo from './app/SegmentedViewExample';
+import StepperDemo from './app/StepperDemo';
+import TabViewDemo from './app/TabViewExample';
+import ToastExample from './app/ToastExample';
+import TransformViewExample from './app/TransformViewExample';
+import WheelExample from './app/WheelExample';
+import SearchInputExample from './app/SearchInputExample';
+
 
 class MyHomeScreen extends React.Component {
 
@@ -44,7 +63,7 @@ let tabList = [
         id: 'home',
         image: require('./app/assets/play-button-small.png'),
         selectionImage: require('./app/assets/play-button-selected.png'),
-        components: Menu
+        components: MenusDemo
     },
     {
         text: ' Menu2 ',
@@ -52,7 +71,7 @@ let tabList = [
         id: 'Menu2',
         image: require('./app/assets/settings.png'),
         selectionImage: require('./app/assets/settings-selected.png'),
-        components: ToastDemo
+        components: SelectDemo
     },
     {
         text: ' Menu3 ',

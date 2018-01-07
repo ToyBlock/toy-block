@@ -54,7 +54,7 @@ export default class MenuItem extends PureComponent {
                     </Text>
                     <Image
                         style={styles.menuItemEnterIcon}
-                        source={require('../../assets/enter.png')}
+                        source={require('../../style/img/enter.png')}
                     />
                 </View>
 

@@ -9,7 +9,7 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 import Button from '../components/Button';
 import Popover from '../components/Popover';
 //import BottomNav from '../components/BottomNav';
-import InputField from '../components/InputField';
+
 import RadioButtonRound from '../components/Radio';
 import ProgressBar from '../components/ProgressBar';
 import GridItem from '../components/Grid/GridItem';
@@ -59,8 +59,7 @@ export default class App extends Component<{}> {
     }
 
     componentDidMount() {
-        console.log(this.refs.button.button);
-        console.log(this.refs.test);
+
     }
 
     showPopover = () => {
@@ -80,18 +79,51 @@ export default class App extends Component<{}> {
         const radio_props = [
             {label: 'param1', value: 0},
             {label: 'param2', value: 1}
+        ];
+
+        const list = [
+            {
+                title: '控件1',
+                key: 1,
+                image: require('./assets/settings.png')
+            },
+            {
+                title: '控件1',
+                key: 2,
+                image: require('./assets/settings.png')
+            },
+            {
+                title: '控件1',
+                key: 3,
+                image: require('./assets/settings.png')
+            },
+            {
+                title: '控件1',
+                key: 4,
+                image: require('./assets/settings.png')
+            },
+            {
+                title: '控件1',
+                key: 5,
+                image: require('./assets/settings.png')
+            },
+            {
+                title: '控件1',
+                key: 6,
+                image: require('./assets/settings.png')
+            }
+
         ]
         return (
             <View style={styles.container}>
-                <Button ref='button' onPress={this.showPopover}>你好</Button>
-                <Button border full color='accent'>你好</Button>
+                {/*<Button ref='button' onPress={this.showPopover}>你好</Button>*/}
+                {/*<Button border full color='accent'>你好</Button>*/}
                 <Popover
                     isVisible={this.state.isVisible}
                     fromRect={this.state.buttonRect}
                     onClose={this.closePopover}>
                     <Text>I'm the content of this popover!</Text>
                 </Popover>
-                <InputField/>
                 <RadioButtonRound
                     types={radio_props}
                     initialValue={0}
@@ -102,12 +134,7 @@ export default class App extends Component<{}> {
                 <ProgressBar
                     progress={20}
                 />
-                <Grid>
-                    <GridItem title="hello" value="world" />
-                    <GridItem title="hello" value="world" />
-                    <GridItem title="hello" value="world" />
-                    <GridItem title="hello" value="world" />
-                </Grid>
+                <Grid list={list} col={4} border={false} />
             </View>
         );
     }

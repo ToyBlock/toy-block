@@ -1,155 +1,137 @@
+// Button.js
 
+'use strict';
 
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 
-import {
-    View,
-    Text,
-    Dimensions,
-    TouchableOpacity,
-    ActivityIndicator,
-    Platform,
-    StyleSheet
-} from 'react-native'
+import Theme from '../../style/theme';
 
-import {flexCenter, colors} from "../../style/basic";
-
-
-function getBordered(color){
-    return {
-        borderColor: colors[color],
-        borderStyle: 'solid',
-        borderWidth: 1,
-        backgroundColor: '#fff'
-    }
-}
-
-
-/**
- * 按钮
- */
-export default class Button extends Component{
-
+export default class Button extends TouchableOpacity {
 
     static propTypes = {
-        color : PropTypes.oneOf([
-            'primary',
-            'accent',
-        ]),
-        size: PropTypes.string,
-        shape: PropTypes.oneOf([
-            'squared',
-            'circle',
-            'icon',
-            'normal'
-        ])
-    }
+        ...TouchableOpacity.propTypes,
+        type: PropTypes.oneOf(['default', 'primary', 'secondary', 'danger', 'link', 'dark']),
+        size: PropTypes.oneOf(['lg', 'md', 'sm']),
+        title: PropTypes.oneOfType([PropTypes.element, PropTypes.string, PropTypes.number]),
+        titleStyle: Text.propTypes.style,
+        shape: PropTypes.oneOf(['full', 'circle', 'normal'])
+    };
 
-    static defaultProps  = {
-        loading : false,
-        style: {},
-        color: "primary",
-        shape: 'normal',
-        full: false,
-        border: false
-    }
+    static defaultProps = {
+        ...TouchableOpacity.defaultProps,
+        type: 'default',
+        size: 'md',
+        shape: 'normal'
+    };
 
-    button = null;
+    buildProps() {
+        let {style, type, size, shape, title, titleStyle, activeOpacity, disabled, children, ...others} = this.props;
 
-
-    onPress = () => {
-        this.props.onPress && this.props.onPress()
-    }
-
-
-    render(){
-
-        // 从父组件接收属性
-        const { children, loading, style, color, shape, full, border, ...others } = this.props;
-        // const height = this.props.height
-
-        let shapeStyle = styles[shape];
-        let borderStyle = getBordered(color);
-        let outerStyle = {
-            borderRadius: 5,
-            backgroundColor: colors[color],
-            ...shapeStyle,
-            ...flexCenter,
-            ...style
-        };
-        let textStyle = {
-            fontSize: 14,
-            color : border ? colors[color] :'white'
-        };
-
-        if(border){
-            Object.assign(outerStyle, borderStyle);
+        let backgroundColor, borderColor, borderWidth, borderRadius, paddingVertical, paddingHorizontal;
+        let textColor, textFontSize, width;
+        switch (type) {
+            case 'primary':
+                backgroundColor = Theme.btnPrimaryColor;
+                borderColor = Theme.btnPrimaryBorderColor;
+                textColor = Theme.btnPrimaryTitleColor;
+                break;
+            case 'secondary':
+                backgroundColor = Theme.btnSecondaryColor;
+                borderColor = Theme.btnSecondaryBorderColor;
+                textColor = Theme.btnSecondaryTitleColor;
+                break;
+            case 'danger':
+                backgroundColor = Theme.btnDangerColor;
+                borderColor = Theme.btnDangerBorderColor;
+                textColor = Theme.btnDangerTitleColor;
+                break;
+            case 'link':
+                backgroundColor = Theme.btnLinkColor;
+                borderColor = Theme.btnLinkBorderColor;
+                textColor = Theme.btnLinkTitleColor;
+                break;
+            case 'dark':
+                backgroundColor = Theme.btnDarkColor;
+                borderColor = Theme.btnDarkBorderColor;
+                textColor = Theme.btnDarkTitleColor;
+                break;
+            default:
+                backgroundColor = Theme.btnColor;
+                borderColor = Theme.btnBorderColor;
+                textColor = Theme.btnTitleColor;
+        }
+        switch (size) {
+            case 'lg':
+                borderRadius = Theme.btnBorderRadiusLG;
+                paddingVertical = Theme.btnPaddingVerticalLG;
+                paddingHorizontal = Theme.btnPaddingHorizontalLG;
+                textFontSize = Theme.btnFontSizeLG;
+                break;
+            case 'sm':
+                borderRadius = Theme.btnBorderRadiusSM;
+                paddingVertical = Theme.btnPaddingVerticalSM;
+                paddingHorizontal = Theme.btnPaddingHorizontalSM;
+                textFontSize = Theme.btnFontSizeSM;
+                break;
+            default:
+                borderRadius = Theme.btnBorderRadiusMD;
+                paddingVertical = Theme.btnPaddingVerticalMD;
+                paddingHorizontal = Theme.btnPaddingHorizontalMD;
+                textFontSize = Theme.btnFontSizeMD;
         }
 
-        if(full){
-            outerStyle.width = '96%';
+        switch (shape) {
+            case 'full':
+                width = Theme.btnFullWidth;
+                break;
+            case 'circle':
+                borderRadius = Theme.btnCircleRadius;
+                paddingHorizontal = paddingVertical;
+
+                break;
+            default:
+
         }
+        borderWidth = Theme.btnBorderWidth;
 
-
-        if(Platform.OS === 'android'){
-            Object.assign(outerStyle, {
-                borderRadius: 0,
-
-            })
-            Object.assign(textStyle, {
-                fontSize: textStyle.fontSize * 1.2,
-                fontWeight: "bold"
-            })
+        style = [{
+            backgroundColor,
+            borderColor,
+            borderWidth,
+            borderRadius,
+            paddingVertical: paddingVertical,
+            paddingHorizontal: paddingHorizontal,
+            overflow: 'hidden',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+        }].concat(style);
+        if(width){
+            style[0].width = width;
         }
-
-        // Loading效果
-        if(loading) {
-            return (
-                <View
-                    style={outerStyle}>
-                    <ActivityIndicator />
-                </View>
-            )
+        style = StyleSheet.flatten(style);
+        if (disabled) {
+            style.opacity = Theme.btnDisabledOpacity;
         }
-        return(
-            <TouchableOpacity
-                onPress={this.onPress}
-                style={outerStyle}
-                ref={(el) => this.button = el }
-                {...others}>
-                <Text style={textStyle}>
-                    {children}
-                </Text>
-            </TouchableOpacity>
-        )
+        this.state.anim._value = style.opacity === undefined ? 1 : style.opacity;
+
+        if (!React.isValidElement(title) && (title || title === '' || title === 0)) {
+            titleStyle = [{
+                color: textColor,
+                fontSize: textFontSize,
+                overflow: 'hidden',
+            }].concat(titleStyle);
+            title = <Text style={titleStyle} numberOfLines={1}>{title}</Text>;
+        }
+        if (title) children = title;
+
+        this.props = {style, type, size, title, titleStyle, activeOpacity, disabled, children, ...others};
     }
 
+    render() {
+        this.buildProps();
+        return super.render();
+    }
 }
-
-
-const styles = {
-    squared: {
-        width: 100,
-        height: 40,
-    },
-    normal: {
-        width: 100,
-        height: 40,
-        borderRadius: 5
-    },
-    icon: {
-
-    },
-    circle: {
-        width: 40,
-        height: 40,
-        borderRadius: 1000
-    },
-    border: {
-
-    }
-};
-
-
-

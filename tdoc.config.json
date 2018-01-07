@@ -1,0 +1,50 @@
+{
+    "name": "ToyBlock",
+    "common": {
+        "title": "ToyBlock",
+        "footer": "Made By Alex. © 2017 - 2018",
+        "home": "ToyBlock",
+        "homeUrl": "http://toy-block.github.io/",
+        "navbars": []
+    },
+    "options": {
+        "markdown": {
+            "menuLevel": 2
+        }
+    },
+    "pages": [
+        {
+            "name": "index",
+            "title": "开始",
+            "banner": {
+                "title": "Tdoc",
+                "description": "开始"
+            },
+            "content": "./doc/index.md"
+        },
+        {
+            "name": "usage",
+            "title": "使用",
+            "banner": {
+                "title": "Tdoc",
+                "description": "使用"
+            },
+            "content": "./doc/usage.md"
+        },
+        {
+            "name": "config",
+            "title": "配置",
+            "banner": {
+                "title": "Tdoc",
+                "description": "配置"
+            },
+            "content": "./doc/config.md"
+        },
+        {
+            "name": "FAQ",
+            "title": "FAQ",
+            "url": "https://github.com/toy-block/toy-block/issues"
+        }
+    ],
+    "rootDir": "doc"
+}

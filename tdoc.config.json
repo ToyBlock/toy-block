@@ -1,5 +1,6 @@
 {
     "name": "ToyBlock",
+    "dest": "docs",
     "common": {
         "title": "ToyBlock",
         "footer": "Made By Alex. © 2017 - 2018",
@@ -43,7 +44,7 @@
         {
             "name": "FAQ",
             "title": "FAQ",
-            "url": "https://github.com/toy-block/toy-block/issues"
+            "url": "https://github.com/ToyBlock/toy-block/issues"
         }
     ],
     "rootDir": "doc"
